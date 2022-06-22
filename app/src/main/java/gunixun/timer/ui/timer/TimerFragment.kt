@@ -3,15 +3,16 @@ package gunixun.timer.ui.timer
 import android.os.Bundle
 import android.view.View
 import gunixun.timer.databinding.FragmentTimerBinding
-import gunixun.timer.di.sureScope
 import gunixun.timer.ui.BaseFragment
 import gunixun.timer.ui.utils.TimerId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.Dispatchers
+
+
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.qualifier.named
 
 class TimerFragment : BaseFragment<FragmentTimerBinding>(FragmentTimerBinding::inflate) {
 
@@ -19,7 +20,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(FragmentTimerBinding::i
         fun newInstance() = TimerFragment()
     }
 
-    private val scope : CoroutineScope by inject(named(sureScope))
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     private val viewModel: TimerContract.TimerViewModel by viewModel()
 

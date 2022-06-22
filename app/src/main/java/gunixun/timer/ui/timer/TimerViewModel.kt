@@ -17,11 +17,7 @@ class TimerViewModel(
     override val ticker2 = MutableStateFlow("")
 
     override fun start(id: TimerId) {
-        if (id == TimerId.Timer1) {
-            if (job == null) startJob(id)
-        }else {
-            if (job2 == null) startJob(id)
-        }
+        startJob(id)
         timerRepo.start(id.ordinal)
     }
 

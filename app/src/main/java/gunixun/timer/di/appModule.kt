@@ -11,19 +11,10 @@ import gunixun.timer.ui.utils.TimestampMillisecondsFormatter
 import org.koin.androidx.viewmodel.dsl.viewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import kotlinx.coroutines.SupervisorJob
 
-const val sureScope = "sureScope"
-const val mainScope = "mainScope"
 
 val appModule = module {
-
-
-
-    factory(named(mainScope)) { CoroutineScope(Dispatchers.Main) }
-    factory(named(sureScope)) { CoroutineScope(Dispatchers.Main + SupervisorJob()) }
 
     factory { TimestampProvider() }
     factory { ElapsedTimeCalculator(timestampProvider=get()) }
@@ -43,7 +34,7 @@ val appModule = module {
 
     viewModel<TimerContract.TimerViewModel> {
         TimerViewModel(
-            scope = get(named(mainScope)),
+            scope = CoroutineScope(Dispatchers.Main),
             timerFormatter = get(),
             timerRepo = get()
         )
